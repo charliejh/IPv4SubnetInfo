@@ -1,11 +1,14 @@
 """
-IPv4 Subnet Information v1.0
+IPv4 Subnet Information v2.0
 By Charlie Harris
 
-[1] Example input: 192.168.1.25/24
+[1] Example input: 192.168.0.1
+                   202.144.10.40
+
+[2] Example input: 192.168.1.25/24
                    10.10.10.10 255.255.0.0
 
-[2] Example Input: 192.168.0.0 500
+[3] Example input: 192.168.0.0 500
 """
 
 from netaddr import *
@@ -36,6 +39,7 @@ def getInformation(ip):
 
 
 def reqSubnet():
+
     ip = input("\nEnter network IP address and the required number of hosts: ")
     ip = ip.split(" ")
     for i in range(32, 0, -1):
@@ -46,20 +50,42 @@ def reqSubnet():
     getInformation(ip)
 
 
+def getIPInfo():
+
+    ip = input("\nEnter IP Address: ")
+    ip = IPAddress(ip)
+    print(str(ip) + " Categorisation: ")
+    if ip.is_unicast() and not ip.is_private():
+        print("Public")
+    if ip.is_private():
+        print("Private")
+    if ip.is_reserved():
+        print("Reserved")
+    if ip.is_multicast():
+        print("Multicast")
+    if ip.is_unicast():
+        print("Unicast")
+    if ip.is_loopback():
+        print("Loopback")
+
+
 def main():
 
     while True:
         choice = input("\n"
-                       "[1] Gather subnet information\n"
-                       "[2] Calculate required subnet\n"
-                       "[3] Exit program\n"
+                       "[1] Get IP Address Categorisation\n"
+                       "[2] Gather Subnet Information\n"
+                       "[3] Calculate Required Subnet\n"
+                       "[4] Exit Program\n"
                        "Choice: ")
         if choice == "1":
+            getIPInfo()
+        elif choice == "2":
             ip = []
             getInformation(ip)
-        elif choice == "2":
-            reqSubnet()
         elif choice == "3":
+            reqSubnet()
+        elif choice == "4":
             print("Quitting program...")
             break;
         else:
@@ -69,4 +95,3 @@ def main():
 if __name__ == '__main__':
     print("IPv4 Subnet Information\n-----------------------")
     main()
-    
